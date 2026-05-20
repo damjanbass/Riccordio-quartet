@@ -1,6 +1,6 @@
-# Riccordio Quartet — Website
+# Riccordia Quartet — Website
 
-Bilingual (Serbian / English) single-page website for Riccordio Quartet.
+Bilingual (Serbian / English) single-page website for Riccordia Quartet.
 Static HTML / CSS / JS. No build step.
 
 ---
