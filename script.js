@@ -149,6 +149,71 @@
     });
   }
 
+  /* ---------- Lightbox ---------- */
+  function initLightbox() {
+    const lb       = document.getElementById('lightbox');
+    const lbImg    = document.getElementById('lbImg');
+    const lbClose  = document.getElementById('lbClose');
+    const lbPrev   = document.getElementById('lbPrev');
+    const lbNext   = document.getElementById('lbNext');
+    const lbCount  = document.getElementById('lbCounter');
+    const items    = Array.from(document.querySelectorAll('.gallery__item'));
+    if (!lb || !items.length) return;
+
+    let current = 0;
+
+    function getSrcs() {
+      return items.map(function (btn) {
+        const img = btn.querySelector('img');
+        return { src: img.src.replace(/w=800/, 'w=1600'), alt: img.alt };
+      });
+    }
+
+    function show(index) {
+      const srcs = getSrcs();
+      current = (index + srcs.length) % srcs.length;
+      lbImg.src = '';
+      lbImg.src = srcs[current].src;
+      lbImg.alt = srcs[current].alt;
+      // re-trigger enter animation
+      lbImg.style.animation = 'none';
+      lbImg.offsetHeight;
+      lbImg.style.animation = '';
+      lbCount.textContent = (current + 1) + ' / ' + srcs.length;
+    }
+
+    function open(index) {
+      lb.hidden = false;
+      document.body.style.overflow = 'hidden';
+      show(index);
+      lbClose.focus();
+    }
+
+    function close() {
+      lb.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    items.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { open(i); });
+    });
+
+    lbClose.addEventListener('click', close);
+    lbPrev.addEventListener('click', function () { show(current - 1); });
+    lbNext.addEventListener('click', function () { show(current + 1); });
+
+    lb.addEventListener('click', function (e) {
+      if (e.target === lb) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (lb.hidden) return;
+      if (e.key === 'Escape')      close();
+      if (e.key === 'ArrowLeft')   show(current - 1);
+      if (e.key === 'ArrowRight')  show(current + 1);
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     initLang();
@@ -157,6 +222,7 @@
     initReveal();
     initFilter();
     initForm();
+    initLightbox();
   }
 
   if (document.readyState === 'loading') {

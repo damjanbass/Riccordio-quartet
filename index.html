@@ -45,6 +45,7 @@
         <a href="#repertoar" data-sr="Repertoar" data-en="Repertoire">Repertoar</a>
         <a href="#koncerti" data-sr="Koncerti" data-en="Concerts">Koncerti</a>
         <a href="#stampa" data-sr="Štampa" data-en="Press">Štampa</a>
+        <a href="#galerija" data-sr="Galerija" data-en="Gallery">Galerija</a>
         <a href="#kontakt" data-sr="Kontakt" data-en="Contact">Kontakt</a>
 
         <div class="lang-toggle" role="group" aria-label="Language">
@@ -438,7 +439,96 @@
     </section>
 
     <!-- =========================================================
-         9. SNIMCI / RECORDINGS
+         9. GALERIJA / GALLERY
+         ========================================================= -->
+    <!-- GALERIJA: zameniti placeholder slike pravim fotografijama -->
+    <!-- GALLERY: replace placeholder images with real photographs -->
+    <section class="section" id="galerija">
+      <div class="container">
+        <header class="section__head">
+          <span class="eyebrow" data-sr="Galerija" data-en="Gallery">Galerija</span>
+          <h2 class="section__title" data-sr="Fotografije" data-en="Photographs">Fotografije</h2>
+        </header>
+
+        <div class="gallery">
+
+          <!-- TODO: Zameniti placeholder sliku pravom fotografijom -->
+          <!-- TODO: Replace placeholder image with real photograph -->
+          <button class="gallery__item" data-index="0" aria-label="Otvori fotografiju 1">
+            <img loading="lazy"
+                 src="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=75"
+                 alt="Riccordio Quartet — nastup na bini" />
+          </button>
+
+          <!-- TODO: Zameniti placeholder sliku pravom fotografijom -->
+          <!-- TODO: Replace placeholder image with real photograph -->
+          <button class="gallery__item" data-index="1" aria-label="Otvori fotografiju 2">
+            <img loading="lazy"
+                 src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=800&q=75"
+                 alt="Riccordio Quartet — detalj" />
+          </button>
+
+          <!-- TODO: Zameniti placeholder sliku pravom fotografijom -->
+          <!-- TODO: Replace placeholder image with real photograph -->
+          <button class="gallery__item" data-index="2" aria-label="Otvori fotografiju 3">
+            <img loading="lazy"
+                 src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&w=800&q=75"
+                 alt="Riccordio Quartet — proba" />
+          </button>
+
+          <!-- TODO: Zameniti placeholder sliku pravom fotografijom -->
+          <!-- TODO: Replace placeholder image with real photograph -->
+          <button class="gallery__item" data-index="3" aria-label="Otvori fotografiju 4">
+            <img loading="lazy"
+                 src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&w=800&q=75"
+                 alt="Riccordio Quartet — detalj instrumenta" />
+          </button>
+
+          <!-- TODO: Zameniti placeholder sliku pravom fotografijom -->
+          <!-- TODO: Replace placeholder image with real photograph -->
+          <button class="gallery__item" data-index="4" aria-label="Otvori fotografiju 5">
+            <img loading="lazy"
+                 src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=75"
+                 alt="Riccordio Quartet — koncert" />
+          </button>
+
+          <!-- TODO: Zameniti placeholder sliku pravom fotografijom -->
+          <!-- TODO: Replace placeholder image with real photograph -->
+          <button class="gallery__item" data-index="5" aria-label="Otvori fotografiju 6">
+            <img loading="lazy"
+                 src="https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?auto=format&fit=crop&w=800&q=75"
+                 alt="Riccordio Quartet — violina" />
+          </button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galerija" hidden>
+      <button class="lightbox__close" id="lbClose" aria-label="Zatvori">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <button class="lightbox__nav lightbox__nav--prev" id="lbPrev" aria-label="Prethodna">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <div class="lightbox__stage">
+        <img class="lightbox__img" id="lbImg" src="" alt="" />
+      </div>
+      <button class="lightbox__nav lightbox__nav--next" id="lbNext" aria-label="Sledeća">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+      <p class="lightbox__counter" id="lbCounter"></p>
+    </div>
+
+    <!-- =========================================================
+         10. SNIMCI / RECORDINGS
          ========================================================= -->
     <!-- SNIMCI: dodati album, label, godinu i Spotify/YouTube link kada budu dostupni -->
     <!-- RECORDINGS: add album, label, year and Spotify/YouTube link when available -->
