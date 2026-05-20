@@ -39,6 +39,8 @@
 html {
   scroll-behavior: smooth;
   background: var(--bg);
+  /* compensate for sticky nav on anchor jumps */
+  scroll-padding-top: 68px;
 }
 
 body {
@@ -51,6 +53,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* prevent any rogue element from causing horizontal scroll */
+  overflow-x: hidden;
 }
 
 img {
@@ -186,7 +190,9 @@ html.scrolled .nav {
 .nav__inner {
   max-width: var(--max);
   margin: 0 auto;
-  padding: 1.1rem var(--pad);
+  /* extra left/right padding for iPhone notch */
+  padding: 1.1rem max(var(--pad), env(safe-area-inset-right, 0px));
+  padding-left: max(var(--pad), env(safe-area-inset-left, 0px));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -271,28 +277,32 @@ html.scrolled .nav {
 .nav__burger {
   display: none;
   flex-direction: column;
-  justify-content: space-between;
-  width: 26px;
-  height: 18px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  /* WCAG 2.5.5 — 44×44 minimum touch target */
+  width: 44px;
+  height: 44px;
   padding: 0;
+  margin-right: -10px;
 }
 
 .nav__burger span {
   display: block;
   height: 1.5px;
-  width: 100%;
+  width: 26px;
   background: var(--gold);
   transition: transform var(--t) var(--ease), opacity var(--t) var(--ease);
 }
 
 .nav__burger.open span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
+  transform: translateY(6.5px) rotate(45deg);
 }
 .nav__burger.open span:nth-child(2) {
   opacity: 0;
 }
 .nav__burger.open span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-6.5px) rotate(-45deg);
 }
 
 /* ------------------------------------------------------------
@@ -300,7 +310,9 @@ html.scrolled .nav {
    ------------------------------------------------------------ */
 .hero {
   position: relative;
+  /* 100svh = visible viewport on mobile (excludes browser chrome) */
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -375,8 +387,9 @@ html.scrolled .nav {
    ------------------------------------------------------------ */
 .members {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: clamp(1.5rem, 3vw, 2.25rem);
+  /* mobile: 1 col; each card stays readable */
+  grid-template-columns: 1fr;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
 }
 
 .member {
@@ -906,7 +919,8 @@ html.scrolled .nav {
 .contact__form select,
 .contact__form textarea {
   font-family: var(--font-sans);
-  font-size: 1rem;
+  /* 16px minimum prevents iOS from zooming on focus */
+  font-size: max(1rem, 16px);
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--border);
@@ -914,6 +928,7 @@ html.scrolled .nav {
   padding: 0.75rem 0;
   transition: border-color var(--t) var(--ease);
   border-radius: 0;
+  width: 100%;
 }
 
 .contact__form input:focus,
@@ -963,6 +978,8 @@ html.scrolled .nav {
   background: var(--bg);
   border-top: 1px solid var(--border-soft);
   padding: 2.5rem 0;
+  /* home indicator space on iPhone */
+  padding-bottom: max(2.5rem, calc(2rem + env(safe-area-inset-bottom, 0px)));
   text-align: center;
 }
 
@@ -1078,4 +1095,192 @@ html.scrolled .nav {
   .hero__bg {
     animation: none !important;
   }
+}
+
+/* ------------------------------------------------------------
+   Focus-visible — keyboard navigation accessibility
+   ------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* Form fields use border-bottom focus indication instead */
+.contact__form input:focus-visible,
+.contact__form select:focus-visible,
+.contact__form textarea:focus-visible {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+/* ------------------------------------------------------------
+   Responsive breakpoints
+   ============================================================
+
+   xs   < 480px   — phones portrait (iPhone SE, Galaxy A)
+   sm   480–599px — phones landscape / small
+   md   600–899px — large phones, small tablets
+   lg   900–1279px — tablets, small laptops
+   xl   ≥ 1280px  — desktop (max-width via .container)
+
+   ------------------------------------------------------------ */
+
+/* ---- sm: 2-col members, larger CTA ---- */
+@media (min-width: 480px) {
+  .members {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero__cta .btn {
+    min-width: 200px;
+  }
+}
+
+/* ---- md: identity / quotes / events refine ---- */
+@media (min-width: 600px) {
+  .quotes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .event {
+    grid-template-columns: 110px 1fr auto;
+  }
+
+  .work {
+    grid-template-columns: minmax(100px, 0.55fr) 1fr auto;
+  }
+}
+
+/* ---- lg: 4-col members, full layouts ---- */
+@media (min-width: 900px) {
+  .members {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---- xs: everything single-column, full-width buttons ---- */
+@media (max-width: 479px) {
+  .nav__brand {
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hero__title {
+    font-size: clamp(2.5rem, 14vw, 4rem);
+  }
+
+  .hero__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__cta .btn {
+    text-align: center;
+    width: 100%;
+  }
+
+  .section__title {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
+
+  .identity__quote {
+    max-width: 100%;
+    font-size: clamp(1.25rem, 6vw, 1.75rem);
+  }
+
+  .filters {
+    gap: 0.4rem;
+  }
+
+  .filter {
+    font-size: 0.68rem;
+    padding: 0.45rem 0.85rem;
+  }
+
+  .work {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .work__year {
+    font-size: 0.75rem;
+  }
+
+  .event {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .event__link {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+  }
+
+  .award {
+    padding: 0.85rem 1rem;
+    font-size: 0.65rem;
+  }
+
+  .recording {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .contact__form .btn {
+    align-self: stretch;
+    text-align: center;
+    width: 100%;
+  }
+
+  .venues {
+    justify-content: center;
+    gap: 1rem 1.75rem;
+  }
+
+  .footer__links {
+    gap: 1.25rem;
+  }
+}
+
+/* ---- Landscape phones: compress hero ---- */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    min-height: max(480px, 100svh);
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 7vh, 4rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero__tagline {
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__cta {
+    gap: 0.75rem;
+  }
+}
+
+/* ---- Wide screens: scale up nicely ---- */
+@media (min-width: 1400px) {
+  :root {
+    --pad: 4rem;
+  }
+
+  .members {
+    gap: 2.5rem;
+  }
+}
+
+/* ---- Print: strip backgrounds, show text ---- */
+@media print {
+  .nav, .hero__bg, .hero__overlay, .hero__cta { display: none; }
+  .hero { min-height: auto; padding: 2rem 0; }
+  body { background: #fff; color: #111; }
+  .section, .section--alt, .section--contact { background: transparent; }
+  a { color: #111; text-decoration: underline; }
 }
