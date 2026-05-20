@@ -611,7 +611,7 @@ html.scrolled .nav {
   padding: 1.25rem 0;
   border-bottom: 1px solid var(--border-soft);
   transition: opacity var(--t) var(--ease), max-height 500ms var(--ease), padding var(--t) var(--ease), border-color var(--t) var(--ease);
-  max-height: 100px;
+  max-height: 200px;
   overflow: hidden;
 }
 
